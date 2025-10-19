@@ -4,30 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>दीपावली की शुभकामनाएं</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Arial', 'Helvetica', sans-serif;
+        }
+        
+        :root {
+            --primary: #ff9933;
+            --secondary: #ffcc00;
+            --accent: #ff6600;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --light: #ffffff;
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--light);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
+            padding: 1rem;
         }
         
         .container {
-            max-width: 800px;
-            width: 90%;
+            max-width: 500px;
+            width: 100%;
             text-align: center;
-            padding: 2rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
@@ -37,24 +48,26 @@
         }
         
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            color: #ff9933;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
             text-shadow: 0 0 10px rgba(255, 153, 51, 0.7);
+            line-height: 1.3;
         }
         
         .diya-container {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 2rem 0;
+            gap: 15px;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
         }
         
         .diya {
-            width: 80px;
-            height: 40px;
-            background: #ff9933;
-            border-radius: 0 0 40px 40px;
+            width: 60px;
+            height: 30px;
+            background: var(--primary);
+            border-radius: 0 0 30px 30px;
             position: relative;
             animation: flicker 3s infinite alternate;
         }
@@ -62,63 +75,74 @@
         .diya::before {
             content: '';
             position: absolute;
-            top: -15px;
-            left: 10px;
-            width: 60px;
-            height: 30px;
-            background: #ffcc00;
+            top: -12px;
+            left: 8px;
+            width: 45px;
+            height: 22px;
+            background: var(--secondary);
             border-radius: 50%;
-            box-shadow: 0 0 20px #ffcc00, 0 0 40px #ff9933;
+            box-shadow: 0 0 15px var(--secondary), 0 0 30px var(--primary);
         }
         
         .flame {
             position: absolute;
-            top: -40px;
-            left: 35px;
-            width: 10px;
-            height: 40px;
-            background: #ffcc00;
+            top: -30px;
+            left: 25px;
+            width: 8px;
+            height: 30px;
+            background: var(--secondary);
             border-radius: 50% 50% 20% 20%;
             transform-origin: bottom;
             animation: flameMove 2s infinite alternate;
-            box-shadow: 0 0 20px #ffcc00, 0 0 40px #ff9933;
+            box-shadow: 0 0 15px var(--secondary), 0 0 30px var(--primary);
         }
         
         .input-section {
-            margin: 2rem 0;
+            margin: 1.5rem 0;
         }
         
         input {
-            padding: 12px 20px;
-            width: 70%;
+            padding: 14px 20px;
+            width: 100%;
             max-width: 300px;
             border: none;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 1.1rem;
             text-align: center;
             outline: none;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
         }
         
         input:focus {
-            transform: scale(1.05);
+            transform: scale(1.03);
             box-shadow: 0 5px 20px rgba(255, 153, 51, 0.5);
         }
         
+        .typing-instruction {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #ccc;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        
         .greeting {
-            margin-top: 2rem;
-            font-size: 1.8rem;
-            color: #ffcc00;
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
-            min-height: 60px;
+            margin-top: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            text-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+            min-height: 50px;
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             transform: translateY(20px);
             transition: all 1s ease;
+            padding: 0 1rem;
+            line-height: 1.4;
         }
         
         .greeting.show {
@@ -128,12 +152,13 @@
         
         .message {
             margin-top: 1.5rem;
-            font-size: 1.4rem;
-            line-height: 1.6;
+            font-size: 1.2rem;
+            line-height: 1.5;
             color: #e6e6ff;
             opacity: 0;
             transform: translateY(20px);
             transition: all 1s ease 0.5s;
+            padding: 0 0.5rem;
         }
         
         .message.show {
@@ -142,47 +167,73 @@
         }
         
         .fireworks {
-            position: absolute;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: 5;
         }
         
         .firework {
             position: absolute;
-            width: 5px;
-            height: 5px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             animation: explode 1.5s forwards;
         }
         
         .rangoli {
-            position: absolute;
+            position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 100px;
+            height: 80px;
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="%23ff9933" d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"/><path fill="%23ffcc00" d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"/><path fill="%23ff6600" d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"/></svg>');
             background-size: cover;
             z-index: 5;
             opacity: 0.7;
         }
         
-        .typing-instruction {
-            margin-top: 0.5rem;
+        .audio-control {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
             font-size: 0.9rem;
-            color: #aaa;
-            font-style: italic;
+        }
+        
+        .audio-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .audio-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
         }
         
         @keyframes flicker {
-            0%, 100% { opacity: 0.9; }
-            50% { opacity: 1; }
+            0%, 100% { opacity: 0.9; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
         }
         
         @keyframes flameMove {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
+            0%, 100% { transform: rotate(-5deg) scaleY(1); }
+            50% { transform: rotate(5deg) scaleY(1.1); }
         }
         
         @keyframes explode {
@@ -199,28 +250,104 @@
             }
         }
         
-        @media (max-width: 600px) {
+        /* Mobile-specific optimizations */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+                border-radius: 15px;
+            }
+            
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .diya {
-                width: 60px;
-                height: 30px;
+                width: 50px;
+                height: 25px;
+            }
+            
+            .diya::before {
+                top: -10px;
+                left: 6px;
+                width: 38px;
+                height: 18px;
             }
             
             .flame {
-                top: -30px;
-                left: 25px;
-                height: 30px;
+                top: -25px;
+                left: 20px;
+                width: 6px;
+                height: 25px;
+            }
+            
+            input {
+                font-size: 1rem;
+                padding: 12px 16px;
             }
             
             .greeting {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
             
             .message {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+            }
+            
+            .rangoli {
+                height: 60px;
+            }
+        }
+        
+        @media (max-width: 350px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .greeting {
+                font-size: 1.1rem;
+            }
+            
+            .message {
+                font-size: 1rem;
+            }
+            
+            .diya-container {
+                gap: 10px;
+            }
+        }
+        
+        /* Touch-friendly improvements */
+        button, .audio-btn {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        input {
+            font-size: 16px; /* Prevents zoom on iOS */
+        }
+        
+        /* Landscape mode optimization */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                padding: 0.8rem;
+                max-width: 90%;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .diya-container {
+                margin: 0.8rem 0;
+            }
+            
+            .input-section {
+                margin: 0.8rem 0;
+            }
+            
+            .greeting, .message {
+                margin-top: 0.8rem;
             }
         }
     </style>
@@ -242,14 +369,21 @@
         </div>
         
         <div class="input-section">
-            <input type="text" id="userName" placeholder="कृपया अपना नाम दर्ज करें">
-            <div class="typing-instruction">जैसे ही आप टाइपिंग पूरी करेंगे, आपकी शुभकामनाएं स्वतः प्रदर्शित होंगी</div>
+            <input type="text" id="userName" placeholder="अपना नाम लिखें" autocomplete="off">
+            <div class="typing-instruction">टाइपिंग रोकते ही आपको शुभकामनाएं मिलेंगी</div>
         </div>
         
         <div class="greeting" id="greetingMessage"></div>
         
         <div class="message" id="blessingMessage">
             दीपावली का पावन प्रकाश आपके जीवन में शांति, समृद्धि, सुख और अच्छे स्वास्थ्य का संचार करे।
+        </div>
+        
+        <div class="audio-control">
+            <button class="audio-btn" id="replayBtn" title="फिर से सुनें">
+                <i class="fas fa-redo-alt"></i>
+            </button>
+            <span>शुभकामना फिर से सुनें</span>
         </div>
     </div>
     
@@ -261,23 +395,37 @@
         const userNameInput = document.getElementById('userName');
         const greetingMessage = document.getElementById('greetingMessage');
         const blessingMessage = document.getElementById('blessingMessage');
+        const replayBtn = document.getElementById('replayBtn');
         
         // Variables for typing detection
         let typingTimer;
-        const doneTypingInterval = 1000; // 1 second after user stops typing
+        const doneTypingInterval = 800; // 0.8 seconds after user stops typing
+        let lastUserName = '';
         
         // Event listener for typing
         userNameInput.addEventListener('input', function() {
             clearTimeout(typingTimer);
             
             // If there's text in the input, set a timeout
-            if (userNameInput.value) {
+            if (userNameInput.value.trim()) {
                 typingTimer = setTimeout(greetUser, doneTypingInterval);
             } else {
                 // If input is empty, hide greeting and message
                 greetingMessage.classList.remove('show');
                 blessingMessage.classList.remove('show');
             }
+        });
+        
+        // Replay button functionality
+        replayBtn.addEventListener('click', function() {
+            if (lastUserName) {
+                speakHindiGreeting(greetingMessage.textContent + ". " + blessingMessage.textContent);
+            }
+        });
+        
+        // Touch-friendly input focus
+        userNameInput.addEventListener('touchstart', function() {
+            this.focus();
         });
         
         function greetUser() {
@@ -287,8 +435,10 @@
                 return;
             }
             
+            lastUserName = userName;
+            
             // Create personalized greeting in Hindi
-            const greetingText = `"${userName} जी, संतोष पांडेय की ओर से आपको दीपावली की हार्दिक शुभकामनाएं"`;
+            const greetingText = `${userName} जी, संतोष पांडेय की ओर से आपको दीपावली की हार्दिक शुभकामनाएं`;
             greetingMessage.innerHTML = greetingText;
             greetingMessage.classList.add('show');
             
@@ -311,7 +461,7 @@
                 const speech = new SpeechSynthesisUtterance();
                 speech.text = text;
                 speech.volume = 1;
-                speech.rate = 0.9;
+                speech.rate = 0.85; // Slightly slower for Hindi
                 speech.pitch = 1;
                 
                 // Try to find a Hindi voice
@@ -340,7 +490,10 @@
                 
                 window.speechSynthesis.speak(speech);
             } else {
-                alert("आपका ब्राउज़र हिंदी वॉयस सपोर्ट नहीं करता। कृपया क्रोम या एज ब्राउज़र का उपयोग करें।");
+                // Show a subtle message if speech is not supported
+                const instruction = document.querySelector('.typing-instruction');
+                instruction.innerHTML = 'वॉयस सपोर्ट नहीं है, लेकिन शुभकामनाएं दिखाई देंगी';
+                instruction.style.color = '#ff9933';
             }
         }
         
@@ -348,8 +501,13 @@
             const container = document.getElementById('fireworksContainer');
             const colors = ['#ff9933', '#ffcc00', '#ff6600', '#ffff00', '#ff3300'];
             
-            // Create multiple fireworks
-            for (let i = 0; i < 30; i++) {
+            // Clear previous fireworks
+            container.innerHTML = '';
+            
+            // Create multiple fireworks - fewer on mobile for performance
+            const fireworkCount = window.innerWidth < 768 ? 20 : 30;
+            
+            for (let i = 0; i < fireworkCount; i++) {
                 setTimeout(() => {
                     const firework = document.createElement('div');
                     firework.className = 'firework';
@@ -361,10 +519,10 @@
                     // Random color
                     const color = colors[Math.floor(Math.random() * colors.length)];
                     firework.style.backgroundColor = color;
-                    firework.style.boxShadow = `0 0 10px ${color}`;
+                    firework.style.boxShadow = `0 0 8px ${color}`;
                     
                     // Random size
-                    const size = Math.random() * 8 + 2;
+                    const size = Math.random() * 6 + 2;
                     firework.style.width = `${size}px`;
                     firework.style.height = `${size}px`;
                     
@@ -376,7 +534,9 @@
                     
                     // Remove firework after animation completes
                     setTimeout(() => {
-                        firework.remove();
+                        if (firework.parentNode) {
+                            firework.parentNode.removeChild(firework);
+                        }
                     }, duration * 1000);
                 }, i * 100);
             }
@@ -384,20 +544,33 @@
         
         // Initialize voices for speech synthesis
         if ('speechSynthesis' in window) {
+            // Some browsers need this to load voices
+            window.speechSynthesis.getVoices();
+            
             window.speechSynthesis.onvoiceschanged = function() {
                 // Voices are now loaded
                 console.log("Voices loaded:", speechSynthesis.getVoices().length);
             };
-            
-            // Trigger voices loading
-            speechSynthesis.getVoices();
         }
         
-        // Show a message if speech synthesis is not supported
-        if (!('speechSynthesis' in window)) {
-            document.querySelector('.typing-instruction').textContent = 
-                "आपका ब्राउज़र वॉयस सपोर्ट नहीं करता। कृपया क्रोम या एज ब्राउज़र का उपयोग करें।";
-        }
+        // Handle visibility change - pause speech when tab is not active
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                window.speechSynthesis.pause();
+            } else {
+                window.speechSynthesis.resume();
+            }
+        });
+        
+        // Prevent zoom on double-tap (iOS)
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
